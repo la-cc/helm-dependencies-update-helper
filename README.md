@@ -2,7 +2,9 @@
 
 This is a tool to help you to update your helm dependencies in your helm charts. It will create a PR with the changes if you want to. But
 
-Why i build this tool? I have a lot of helm charts and i want to update the dependencies in all of them. The resources from helm-charts will be deployed over argocd, so the helm chart will no be installed on the cluster itself. Because of that you cant use tools like renovate or dependabot.
+Why I build this tool? We have a lot of helm charts and we want to update the dependencies in all of them.
+The resources from helm-charts will be deployed over argocd, so the helm chart will no be installed on the cluster itself.
+Because of that you cant use tools like [renovate](https://github.com/renovatebot/helm-charts) or [dependabot](https://github.com/dependabot).
 
 You can use this tool in your CI/CD pipeline or locally. The whole description about the script can be found on TBD.
 
@@ -39,6 +41,8 @@ Now edit the `config.env` file like:
     GITHUB='true'
     AZURE_DEVOPS='false'
     WITHOUT_PR='false'
+    BOT_NAME='helm-dep-sheriff'
+    BOT_EMAIL='@la-cc.com'
 
 Commit and push the changes to your repository. After that you can run the script with:
 
@@ -67,6 +71,8 @@ Now edit the `config.env` file like:
     GITHUB='false'
     AZURE_DEVOPS='true'
     WITHOUT_PR='false'
+    BOT_NAME='helm-dep-sheriff'
+    BOT_EMAIL='@la-cc.com'
 
 Commit and push the changes to your repository. After that you can run the script with:
 

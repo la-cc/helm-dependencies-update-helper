@@ -72,6 +72,10 @@ function checkHelmDependenciesAndUpdateWithOutPR() {
                 # Replace the old version with the new version in the Chart.yaml file using sed
                 sed -i.bak "s/version: $version/version: $current_version/g" "$(basename $chart_file)" && rm "$(basename $chart_file).bak"
 
+                # Configure git
+                git config --global user.email "$BOT_NAME@$BOT_EMAIL"
+                git config --global user.name "$BOT_NAME"
+
                 # Create a new branch for this change
                 git checkout -b update-helm-$sanitized_name-$current_version
                 # Add the changes to the staging area
@@ -167,6 +171,10 @@ function checkHelmDependenciesAndUpdateGitHub() {
                 # Replace the old version with the new version in the Chart.yaml file using sed
                 sed -i.bak "s/version: $version/version: $current_version/g" "$(basename $chart_file)" && rm "$(basename $chart_file).bak"
 
+                # Configure git
+                git config --global user.email "$BOT_NAME@$BOT_EMAIL"
+                git config --global user.name "$BOT_NAME"
+
                 # Create a new branch for this change
                 git checkout -b update-helm-$sanitized_name-$current_version
                 # Add the changes to the staging area
@@ -261,6 +269,10 @@ function checkHelmDependenciesAndUpdateAzureDevOps() {
 
                 # Delete the temporary files
                 rm old_values.yaml new_values.yaml diff_result.txt shift_diff_result.txt
+
+                # Configure git
+                git config --global user.email "$BOT_NAME@$BOT_EMAIL"
+                git config --global user.name "$BOT_NAME"
 
                 # Replace the old version with the new version in the Chart.yaml file using sed
                 sed -i.bak "s/version: $version/version: $current_version/g" "$(basename $chart_file)" && rm "$(basename $chart_file).bak"
@@ -474,6 +486,14 @@ fi
 
 if [[ -z ${WITHOUT_PR} || ${WITHOUT_PR} == '<no value>' ]]; then
     errorUsage "WITHOUT_PR missing!"
+fi
+
+if [[ -z ${BOT_NAME} || ${BOT_NAME} == '<no value>' ]]; then
+    errorUsage "BOT_NAME missing!"
+fi
+
+if [[ -z ${BOT_EMAIL} || ${BOT_EMAIL} == '<no value>' ]]; then
+    errorUsage "BOT_EMAIL missing!"
 fi
 
 # -------- Main  ------------ #
