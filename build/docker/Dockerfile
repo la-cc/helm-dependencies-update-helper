@@ -22,11 +22,12 @@ RUN apk --no-cache add \
     nano \
     apache2-utils
 
-
 #install github cli
 RUN apk update && \
     apk add --no-cache \
-    github-cli
+    github-cli \
+    openssh-keygen \
+    openssh
 
 # install azure cli
 RUN pip3 install azure-cli
@@ -35,6 +36,12 @@ RUN pip3 install azure-cli
 RUN az extension add --name azure-devops
 
 
+RUN mkdir -p /root/.ssh && \
+    chmod 0700 /root/.ssh
+
+RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
+RUN ssh-keyscan ssh.dev.azure.com >> /root/.ssh/known_hosts
+
 #Install yq
 RUN curl -L https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq &&\
     chmod +x /usr/local/bin/yq
@@ -42,7 +49,8 @@ RUN curl -L https://github.com/mikefarah/yq/releases/latest/download/yq_linux_am
 
 #Install dyff
 RUN curl -L https://github.com/homeport/dyff/releases/download/v1.5.8/dyff_1.5.8_linux_amd64.tar.gz -o dyff_v1.5.8_linux_amd64.tar.gz && \
-    tar xfv dyff_v1.5.8_linux_amd64.tar.gz -C /usr/local/bin
+    tar xfv dyff_v1.5.8_linux_amd64.tar.gz -C /usr/local/bin && \
+    rm dyff_v1.5.8_linux_amd64.tar.gz
 
 # copy templates
 COPY src/templates /usr/local/src/templates

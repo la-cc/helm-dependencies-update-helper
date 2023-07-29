@@ -17,12 +17,12 @@ You will need container runtime engine like docker or podman. I will use docker 
     docker run --rm \
     -v $(pwd):$(pwd) \
     --workdir $(pwd) \
-    helm-dependencies-update-helper:0.0.0 init-config
+    ghcr.io/la-cc/helm-dependencies-update-helper:0.0.4 init-config
 
     docker run --rm \
         -v $(pwd):$(pwd) \
         --workdir $(pwd) \
-        helm-dependencies-update-helper:0.0.0 check-helm-dep-updates
+        ghcr.io/la-cc/helm-dependencies-update-helper:0.0.4 check-helm-dep-updates
 
 ## GitHub
 
@@ -30,9 +30,10 @@ First you have to login against GitHub. You can do this with `gh auth login` or 
 
     docker run --rm \
         -v $(pwd):$(pwd) \
+        -v ${HOME}/.ssh:/root/.ssh \
         -e GH_TOKEN=$(gh auth token) \
         --workdir $(pwd) \
-        helm-dependencies-update-helper:0.0.0 init-config
+        ghcr.io/la-cc/helm-dependencies-update-helper:0.0.4 init-config
 
 Now edit the `config.env` file like:
 
@@ -41,7 +42,7 @@ Now edit the `config.env` file like:
     GITHUB='true'
     AZURE_DEVOPS='false'
     WITHOUT_PR='false'
-    BOT_NAME='helm-dep-sheriff'
+    BOT_NAME='bot-helm-dep-sheriff'
     BOT_EMAIL='@la-cc.com'
 
 Commit and push the changes to your repository. After that you can run the script with:
@@ -50,9 +51,10 @@ Commit and push the changes to your repository. After that you can run the scrip
 
     docker run --rm \
         -v $(pwd):$(pwd) \
+        -v ${HOME}/.ssh:/root/.ssh \
         -e GH_TOKEN=$(gh auth token) \
         --workdir $(pwd) \
-        helm-dependencies-update-helper:0.0.0 check-helm-dep-updates
+        ghcr.io/la-cc/helm-dependencies-update-helper:0.0.4 check-helm-dep-updates
 
 ## Azure DevOps
 
@@ -60,9 +62,10 @@ First you have to create a PAT token. You can find more information here on the 
 
     docker run --rm \
         -v $(pwd):$(pwd) \
-        -e export AZURE_DEVOPS_EXT_PAT=$(cat pat_token.txt) \
+        -v ${HOME}/.ssh:/root/.ssh \
+        -e AZURE_DEVOPS_EXT_PAT=$(cat pat_token.txt) \
         --workdir $(pwd) \
-        helm-dependencies-update-helper:0.0.0 init-config
+        ghcr.io/la-cc/helm-dependencies-update-helper:0.0.4 init-config
 
 Now edit the `config.env` file like:
 
@@ -71,7 +74,7 @@ Now edit the `config.env` file like:
     GITHUB='false'
     AZURE_DEVOPS='true'
     WITHOUT_PR='false'
-    BOT_NAME='helm-dep-sheriff'
+    BOT_NAME='bot-helm-dep-sheriff'
     BOT_EMAIL='@la-cc.com'
 
 Commit and push the changes to your repository. After that you can run the script with:
@@ -80,8 +83,9 @@ Commit and push the changes to your repository. After that you can run the scrip
 
     docker run --rm \
         -v $(pwd):$(pwd) \
-        -e export AZURE_DEVOPS_EXT_PAT=$(cat pat_token.txt) \
+        -v ${HOME}/.ssh:/root/.ssh \
+        -e AZURE_DEVOPS_EXT_PAT=$(cat pat_token.txt) \
         --workdir $(pwd) \
-        helm-dependencies-update-helper:0.0.0 check-helm-dep-updates
+        ghcr.io/la-cc/helm-dependencies-update-helper:0.0.4 check-helm-dep-updates
 
 ## Without PR - Support all Git Providers - TBD

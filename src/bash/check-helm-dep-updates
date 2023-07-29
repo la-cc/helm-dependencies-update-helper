@@ -285,10 +285,10 @@ function checkHelmDependenciesAndUpdateAzureDevOps() {
                 # Create a commit with a message indicating the changes
                 git commit -m "Update $name version from $version to $current_version"
 
-                # Push the new branch to GitHub
+                # Push the new branch to Azuq DevOps
                 git push origin update-helm-$sanitized_name-$current_version
 
-                # Create a Azure DevOps Pull Request - TBD
+                # Create a Azure DevOps Pull Request
                 az repos pr create --title "Update $name version from $version to $current_version" --description "$shift_diff_result" --target-branch $BRANCH --source-branch update-helm-$sanitized_name-$current_version 1>/dev/null || true
 
                 # Get back to the source branch
