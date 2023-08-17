@@ -42,15 +42,20 @@ RUN mkdir -p /root/.ssh && \
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 RUN ssh-keyscan ssh.dev.azure.com >> /root/.ssh/known_hosts
 
-#Install yq
+# install yq
 RUN curl -L https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq &&\
     chmod +x /usr/local/bin/yq
 
 
-#Install dyff
+# install dyff
 RUN curl -L https://github.com/homeport/dyff/releases/download/v1.5.8/dyff_1.5.8_linux_amd64.tar.gz -o dyff_v1.5.8_linux_amd64.tar.gz && \
     tar xfv dyff_v1.5.8_linux_amd64.tar.gz -C /usr/local/bin && \
     rm dyff_v1.5.8_linux_amd64.tar.gz
+
+# install helm
+RUN curl -L https://get.helm.sh/helm-v3.12.3-linux-amd64.tar.gz -o helm-v3.12.3-linux-amd64.tar.gz && \
+    tar xfv helm-v3.12.3-linux-amd64.tar.gz -C /usr/local/bin && \
+    rm helm-v3.12.3-linux-amd64.tar.gz
 
 # copy templates
 COPY src/templates /usr/local/src/templates
