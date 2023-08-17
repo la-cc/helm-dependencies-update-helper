@@ -55,6 +55,7 @@ RUN curl -L https://github.com/homeport/dyff/releases/download/v1.5.8/dyff_1.5.8
 # install helm
 RUN curl -L https://get.helm.sh/helm-v3.12.3-linux-amd64.tar.gz -o helm-v3.12.3-linux-amd64.tar.gz && \
     tar xfv helm-v3.12.3-linux-amd64.tar.gz -C /usr/local/bin && \
+    cp /usr/local/bin/linux-amd64/helm /usr/local/bin && \
     rm helm-v3.12.3-linux-amd64.tar.gz
 
 # copy templates
@@ -63,7 +64,7 @@ COPY src/templates /usr/local/src/templates
 # copy initial config files
 COPY src/configs /usr/local/src/configs
 
-# copy bash scripts
+# copy bash scriptsx^
 COPY src/bash/ /usr/local/bin
 
 RUN chmod +x /usr/local/bin/*
